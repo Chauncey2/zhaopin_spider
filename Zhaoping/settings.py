@@ -73,9 +73,9 @@ MONGODB_HOST='127.0.0.1'
 #端口号
 MONGODB_PORT=27017
 #设置数据库名称
-MONGODB_DBNAME='ZHILIAN'
+MONGODB_DBNAME='JobInfo'
 #存放数据的表名称
-MONGODB_DOCNAME='jobInfo'
+MONGODB_DOCNAME='zhilian'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

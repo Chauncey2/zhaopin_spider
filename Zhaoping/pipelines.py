@@ -6,7 +6,6 @@ from scrapy.conf import settings
 class ZhaopingPipeline(object):
     # 初始化数据库
     def __init__(self):
-        # 获取主机名、端口号和数据库名称
         host = settings['MONGODB_HOST']
         port = settings['MONGODB_PORT']
         dbname = settings['MONGODB_DBNAME']
@@ -16,11 +15,20 @@ class ZhaopingPipeline(object):
         self.post = mdb[settings['MONGODB_DOCNAME']]  # 获取数据库中的表
 
     def process_item(self,item,spider):
+        '''
+
+        :param item:页面数据
+        :param spider:
+        :return:处理后的数据
+        '''
+        # print(item)
         data=dict(item)
         self.post.insert(data)  # 向数据表中添加数据
+
         return item
 
     def close_spider(self,spider):
+
         self.client.close()  # 爬虫关闭，关闭数据库连接
 
 

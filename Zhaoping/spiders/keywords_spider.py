@@ -2,6 +2,7 @@
 import scrapy
 from ..items import KeyWordItem
 
+
 class KeyWordSpiderSpider(scrapy.Spider):
     name = 'keywords_spider'
     allowed_domains = ['https://www.zhaopin.com/']
