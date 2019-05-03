@@ -6,19 +6,10 @@ import re
 
 class ZhaopinSpider(scrapy.Spider):
     name = 'job_spider'
-    # allowed_domains = ['sou.zhaopin.com']
-    # baseUrl='https://fe-api.zhaopin.com/c/i/sou?start={0}&pageSize=90&cityId=489' \
-    #         '&workExperience=-1&education=-1&companyType=-1&employmentType=-1' \
-    #         '&jobWelfareTag=-1&kw={1}&kt=3'
     baseUrl='https://fe-api.zhaopin.com/c/i/sou?start={0}&pageSize=90&cityId=489&kw={1}&kt=3'
 
-    offset=0 #偏移量
+    offset = 0  # 偏移量
 
-    # start_urls = []
-
-    '''
-    初始换爬取地址，取关键词组成爬取初始地址
-    '''
     def start_requests(self):
         '''
         初始换爬取地址，取关键词组成爬取初始地址
@@ -48,11 +39,6 @@ class ZhaopinSpider(scrapy.Spider):
         if len(data_list)==0:
             return
 
-        # for data in data_list:
-        #     url=data['positionURL']
-        #     # print(url)
-        #     yield scrapy.Request(url=url,callback=self.parse_detail)
-
         for data in data_list:
             item=ZhaopingItem()
 
@@ -67,9 +53,13 @@ class ZhaopinSpider(scrapy.Spider):
             item['workingExp']=data['workingExp']['name']  #工作经验
             item['infoComLink']=data['company']['url']     #公司详情连接
             item['positionUrl']=data['positionURL']        # 职位详情链接
+            item['extractSkillTag']=data['extractSkillTag'] # 职位技能关键字
 
             yield item
+
+
         init_url=response.meta['start_url']
+
         self.offset += 90
         str_offset = str(self.offset)
         pattern = 'start=(.*?)&'
@@ -78,9 +68,6 @@ class ZhaopinSpider(scrapy.Spider):
 
         yield scrapy.Request(url=url,callback=self.parse)
 
-    def parse_detail(self,response):
-        print('*************详情页***********')
-        print(response.text)
 
 
 

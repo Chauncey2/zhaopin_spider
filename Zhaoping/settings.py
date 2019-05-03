@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for Zhaoping project
-#
-# For simplicity, this file contains only settings considered important or
-# commonly used. You can find more settings consulting the documentation:
-#
-#     https://doc.scrapy.org/en/latest/topics/settings.html
-#     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 BOT_NAME = 'Zhaoping'
 
 SPIDER_MODULES = ['Zhaoping.spiders']
 NEWSPIDER_MODULE = 'Zhaoping.spiders'
+
+#monogodb本机连接地址
+MONGODB_HOST='127.0.0.1'
+#端口号
+MONGODB_PORT=27017
+#设置数据库名称
+MONGODB_DBNAME='JobInfo'
+#存放数据的表名称
+MONGODB_DOCNAME='zhilian'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -68,14 +69,7 @@ ITEM_PIPELINES = {
    'Zhaoping.pipelines.ZhaopingPipeline': 300,
 }
 
-#monogodb本机连接地址
-MONGODB_HOST='127.0.0.1'
-#端口号
-MONGODB_PORT=27017
-#设置数据库名称
-MONGODB_DBNAME='JobInfo'
-#存放数据的表名称
-MONGODB_DOCNAME='zhilian'
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

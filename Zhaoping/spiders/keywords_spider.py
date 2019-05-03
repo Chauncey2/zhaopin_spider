@@ -12,8 +12,6 @@ class KeyWordSpiderSpider(scrapy.Spider):
 
         for items in response.xpath('//*[@id="root"]/div[2]/div[2]/div[1]/ol/li'):
             item=KeyWordItem()
-            # print(items.xpath('./div[1]/text()').extract_first())
-            # print(items.xpath('./div[2]/div/div[position()>1]').extract())
             item['Industy_name']=items.xpath('./div[1]/text()').extract_first() # 获取行业名称
             item['Job_keywords']=items.xpath('./div[2]/div/div[position()>1]/a/text()').extract() # 获取职位关键字
 

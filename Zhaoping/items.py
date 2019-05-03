@@ -15,6 +15,7 @@ class ZhaopingItem(scrapy.Item):
     workingExp = scrapy.Field()  # 要求
     infoComLink = scrapy.Field()  # 公司详情连接
     positionUrl=scrapy.Field() # 职位详情链接
+    extractSkillTag=scrapy.Field() # 职位技能关键字
 
 
 class KeyWordItem(scrapy.Item):
