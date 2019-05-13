@@ -8,7 +8,7 @@ data={
     'companyName': '北京神州泰岳软件股份有限公司',
     'salary': '4K-6K',
     'welfare': ['五险一金', '绩效奖金', '带薪年假', '节日福利', '员工旅游'],
-    'city': '哈尔滨-南岗区',
+    'city': '哈尔滨',
     'workingExp': '5-10年',
     'infoComLink': 'https://company.zhaopin.com/CZ120116920.htm',
     'positionUrl': 'https://jobs.zhaopin.com/CC120116927J00133857009.htm',
@@ -24,7 +24,7 @@ data2={'jobType': '销售业务,客户代表',
        'companyName': '上海万间信息技术有限公司',
        'salary': '4.5K-6K',
        'welfare': ['五险一金', '绩效奖金', '全勤奖', '节日福利', '弹性工作'],
-       'city': '杭州-上城区',
+       'city': '济南-高新区',
        'workingExp': '无经验',
        'infoComLink': 'https://company.zhaopin.com/CZ241308880.htm',
        'positionUrl': 'https://jobs.zhaopin.com/CZ241308880J00271368001.htm',
@@ -34,15 +34,10 @@ data2={'jobType': '销售业务,客户代表',
 def clear_data(data):
     result=data
     try:
+        # 处理薪资字段
         salary_pattern = "(.?)K-(.*?)K"
         salary_regex = re.compile(salary_pattern)
-
-        exp_pattern="(.*?)-(.*)年"
-        exp_regex=re.compile(exp_pattern)
-
         salary_str = data['salary']
-        exp_str = data["workingExp"]
-
         if salary_str is not None :
             salary = []
             if salary_str == "薪资面议":
@@ -56,6 +51,10 @@ def clear_data(data):
 
             result['salary']=salary
 
+        # 处理工作经验字段
+        exp_pattern = "(.*?)-(.*)年"
+        exp_regex = re.compile(exp_pattern)
+        exp_str = data["workingExp"]
         if exp_str is not None and exp_str != "不限" and exp_str != "无经验":
             exp = []
             if exp_str == "不限" or exp_str =="无经验":
@@ -68,16 +67,32 @@ def clear_data(data):
                 exp.append(max_exp)
 
             result['workingExp'] = exp
+
+        # 处理职位所在城市字段
+        city_str = data['city']
+        if '-' in city_str:
+            city_str = city_str.split('-')[0]
+            print(city_str)
+        result['city'] = city_str
+
+        # 处理jobType字段
+        jobType_str=data['jobType']
+        jobType_str=jobType_str.split(',')[0]
+        result['jobType']=jobType_str
+
     except Exception as e:
         print(e.args)
     finally:
         return result
 
-if __name__  ==  '__main__':
-    print(type(clear_data(data)["workingExp"]))
-    print(clear_data(data)["workingExp"])
 
-    print(type(clear_data(data)['salary']))
-    print(clear_data(data)['salary'])
+if __name__  ==  '__main__':
+    print(type(clear_data(data2)["workingExp"]))
+    print(clear_data(data2)["workingExp"])
+
+    print(type(clear_data(data2)['salary']))
+    print(clear_data(data2)['salary'])
+    print(clear_data(data2)['city'])
+    print(clear_data(data2)['jobType'])
 
 

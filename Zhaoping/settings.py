@@ -11,9 +11,9 @@ MONGODB_HOST='127.0.0.1'
 #端口号
 MONGODB_PORT=27017
 #设置数据库名称
-MONGODB_DBNAME='JobInfo'
+MONGODB_DBNAME='test'
 #存放数据的表名称
-MONGODB_DOCNAME='zhilian'
+MONGODB_DOCNAME='test'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

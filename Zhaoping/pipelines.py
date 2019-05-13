@@ -29,7 +29,7 @@ class ZhaopingPipeline(object):
         data=ZhaopingPipeline.clear_data(data)
 
         self.post.insert(data)
-        return item
+        # return item
 
     def close_spider(self,spider):
         """
@@ -57,6 +57,7 @@ class ZhaopingPipeline(object):
             salary_str = data['salary']
             exp_str = data["workingExp"]
 
+            # 处理工资字段
             if salary_str is not None:
                 salary = []
                 if salary_str == "薪资面议":
@@ -69,7 +70,7 @@ class ZhaopingPipeline(object):
                     salary.append(int(max_sal))
 
                 result['salary'] = salary
-
+            # 处理工作经验字段
             if exp_str is not None and exp_str != "不限" and exp_str != "无经验":
                 exp = []
                 if exp_str == "不限" or exp_str == "无经验":
@@ -82,7 +83,31 @@ class ZhaopingPipeline(object):
                     exp.append(max_exp)
 
                 result['workingExp'] = exp
+
+            # 处理职位所在城市字段
+            city_str = data['city']
+
+            if '-' in city_str:
+                city_str = city_str.split('-')[0]
+                print(city_str)
+            result['city'] = city_str
+
+            # 处理jobType字段
+            jobType_str = data['jobType']
+            jobType_str = jobType_str.split(',')[0]
+            result['jobType'] = jobType_str
+
+
         except Exception as e:
             print(e.args)
+
+            # 处理工作地址字段
+            if '-' in  result['city']:
+                result['city']=result['city'].split('-')[0]
+
+            # 处理jobType字段
+            jobType_str = data['jobType']
+            jobType_str = jobType_str.split(',')[0]
+            result['jobType'] = jobType_str
         finally:
             return result
