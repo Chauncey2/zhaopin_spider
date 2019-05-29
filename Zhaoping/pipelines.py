@@ -29,7 +29,7 @@ class ZhaopingPipeline(object):
         data=ZhaopingPipeline.clear_data(data)
 
         self.post.insert(data)
-        # return item
+        return item
 
     def close_spider(self,spider):
         """
@@ -97,6 +97,10 @@ class ZhaopingPipeline(object):
             jobType_str = jobType_str.split(',')[0]
             result['jobType'] = jobType_str
 
+            # 处理发布时间字段
+            release_time = data['releaseTime']
+            release_time = release_time.split(' ')[0]
+            result['releaseTime'] = release_time
 
         except Exception as e:
             print(e.args)
@@ -109,5 +113,11 @@ class ZhaopingPipeline(object):
             jobType_str = data['jobType']
             jobType_str = jobType_str.split(',')[0]
             result['jobType'] = jobType_str
+
+            # 处理发布时间字段
+            release_time = data['releaseTime']
+            release_time = release_time.split(' ')[0]
+            result['releaseTime'] = release_time
+
         finally:
             return result

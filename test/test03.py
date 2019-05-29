@@ -29,7 +29,9 @@ data2={'jobType': '销售业务,客户代表',
        'infoComLink': 'https://company.zhaopin.com/CZ241308880.htm',
        'positionUrl': 'https://jobs.zhaopin.com/CZ241308880J00271368001.htm',
        'extractSkillTag': ['css', '数据分析', '日语', '韩语', '人力资源管理',
-                           'html', '数据库', '人力资源', '财务']}
+                           'html', '数据库', '人力资源', '财务'],
+       'releaseTime':'2019-05-06 10:55:29'
+       }
 
 def clear_data(data):
     result=data
@@ -80,6 +82,10 @@ def clear_data(data):
         jobType_str=jobType_str.split(',')[0]
         result['jobType']=jobType_str
 
+        # 处理发布时间字段
+        release_time=data['releaseTime']
+        release_time=release_time.split(' ')[0]
+        result['releaseTime']=release_time
     except Exception as e:
         print(e.args)
     finally:
@@ -94,5 +100,5 @@ if __name__  ==  '__main__':
     print(clear_data(data2)['salary'])
     print(clear_data(data2)['city'])
     print(clear_data(data2)['jobType'])
-
+    print(clear_data(data2)['releaseTime'])
 
