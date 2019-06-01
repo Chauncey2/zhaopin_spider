@@ -48,11 +48,11 @@ class ZhaopinSpider(scrapy.Spider):
             item['eduLevel']=data['eduLevel']['name']       #学历要求
             item['companyName']=data['company']['name']     #公司名称
             item['salary']=data['salary']                   #薪资
-            item['welfare']=data['welfare']                 #员工福利
+            # item['welfare']=data['welfare']                 #员工福利
             item['city']=data['city']['display']            #工作城市
             item['workingExp']=data['workingExp']['name']   #工作经验
-            item['infoComLink']=data['company']['url']      #公司详情连接
-            item['positionUrl']=data['positionURL']         # 职位详情链接
+            # item['infoComLink']=data['company']['url']      #公司详情连接
+            # item['positionUrl']=data['positionURL']         # 职位详情链接
             item['extractSkillTag']=data['extractSkillTag'] # 职位技能关键字
             item['releaseTime']=data['createDate']          # 职位发布时间
 

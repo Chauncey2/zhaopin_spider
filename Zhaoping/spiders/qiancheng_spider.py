@@ -30,6 +30,7 @@ class QianchengSpider(scrapy.Spider):
     def parse(self, response):
 
         content=response.xpath("//div[@class='dw_table']")
+        # 构造详情页请求连接
         detail_url_list=content.xpath("div[@class='el']/p/span/a/@href").extract()
         for url_item in detail_url_list:
             print(url_item)
@@ -42,8 +43,12 @@ class QianchengSpider(scrapy.Spider):
             print("剩余地址数：",len(detail_url_list))
             yield scrapy.Request(url=url, callback=self.detail_parse)
 
-        print(detail_url_list)
-        if detail_url_list is None:
+        # 如果 第一页爬取完毕，则获取下一页
+        next_url=response.xpath("//li[@class='bk']/a[contains(text(),'下一页')]/@href").extract()[0]
+        print("next_url",next_url)
+        if next_url is not None:
+            yield scrapy.Request(url=next_url, callback=self.parse)
+        elif detail_url_list is not None:   #下一页爬取为空，就换连接
             init_url = response.meta['start_url']
             yield scrapy.Request(url=init_url, callback=self.detail_parse)
 
@@ -55,20 +60,18 @@ class QianchengSpider(scrapy.Spider):
         :return:item数据
         """
         item=QianchengItem()    # 定义数据
-
+        # 每个字段都需要处理
         item["jobType"]=response.xpath("//div[@class='mt10']/p/a/text()").extract()
         item["jobName"]=response.xpath("//div[@class='cn']/h1/text()").extract()
+        item["eduLevel"]=response.xpath("//p[@class='msg ltype']/@title").extract()
+        item["companyName"] = response.xpath("//p[@class='cname']/a[1]/text()").extract()
+        item["salary"] = response.xpath("//div[@class='cn']/strong/text()").extract()
 
-        item["eduLevel"]=response.xpath("//p[@class='msg ltype']/text()").extract()     # 需要特殊处理
+        item["city"] = response.xpath("//p[@class='msg ltype']/@title").extract()
+        item["workingExp"] = response.xpath("//p[@class='msg ltype']/@title").extract()
 
-        item["companyName"] = response.xpath("").extract()
-        item["salary"] = response.xpath("").extract()
-        item["welfare"] = response.xpath("").extract()
+        item["extractSkillTag"] = response.xpath("//div[@class='mt10']/p[2]/a/text()").extract()
 
-        item["city"] = response.xpath("//p[@class='msg ltype']/text()").extract()       # 需要特殊处理
-        item["workingExp"] = response.xpath("//p[@class='msg ltype']/text()").extract() # 需要特殊处理
+        item["releaseTime"] = response.xpath("//p[@class='msg ltype']/@title").extract() # 需要特殊处理
 
-        item["extractSkillTag"] = response.xpath("").extract()
-
-        item["releaseTime"] = response.xpath("//p[@class='msg ltype']/text()").extract() # 需要特殊处理
-
+        yield item

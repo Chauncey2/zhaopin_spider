@@ -33,6 +33,7 @@ data2={'jobType': '销售业务,客户代表',
        'releaseTime':'2019-05-06 10:55:29'
        }
 
+
 def clear_data(data):
     result=data
     try:
