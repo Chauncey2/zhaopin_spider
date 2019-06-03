@@ -111,7 +111,6 @@ class ZhaopingPipeline(object):
             # 处理工作地址字段
             if '-' in result['city']:
                 result['city'] = result['city'].split('-')[0]
-
             # 处理jobType字段
             jobType_str = data['jobType']
             jobType_str = jobType_str.split(',')[0]
