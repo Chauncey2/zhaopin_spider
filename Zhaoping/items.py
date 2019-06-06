@@ -11,6 +11,7 @@ class ZhaopingItem(scrapy.Item):
     salary = scrapy.Field()             # 工资
     city = scrapy.Field()               # 城市
     workingExp = scrapy.Field()         # 要求
+    extractSkillTag = scrapy.Field()     # 职位技能关键字
     releaseTime=scrapy.Field()          # 发布时间
 
 

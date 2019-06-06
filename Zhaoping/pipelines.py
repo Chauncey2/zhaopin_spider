@@ -4,6 +4,7 @@ from scrapy.conf import settings
 from .items import ZhaopingItem,QianchengItem
 import re
 import numpy as np
+import json
 
 class ZhaopingPipeline(object):
 
@@ -105,6 +106,19 @@ class ZhaopingPipeline(object):
             release_time = release_time.split(' ')[0]
             result['releaseTime'] = release_time
 
+            # 处理工作技能字段
+            extractSkillTag = result["extractSkillTag"]
+            if extractSkillTag is None:
+                extractSkillTag = result["jobType"]
+                result["extractSkillTag"] = extractSkillTag
+
+            skilTag=json.loads(extractSkillTag)['skillLabel']
+            if skilTag is None:
+                temp=result["jobType"]
+                skilTag.append(temp)
+
+            result["extractSkillTag"]=skilTag
+
         except Exception as e:
             print(e.args)
 
@@ -120,6 +134,21 @@ class ZhaopingPipeline(object):
             release_time = data['releaseTime']
             release_time = release_time.split(' ')[0]
             result['releaseTime'] = release_time
+
+            # 处理工作技能标签字段
+            extractSkillTag = result["extractSkillTag"]
+            if extractSkillTag is None:
+                extractSkillTag = result["jobType"]
+                result["extractSkillTag"] = extractSkillTag
+            skilTag = json.loads(extractSkillTag)['skillLabel']
+
+            if skilTag is None:
+                skilTag.append(jobType_str)
+            result["extractSkillTag"] = skilTag
+            if skilTag is None:
+                temp=result["jobType"]
+                skilTag.append(temp)
+            result["extractSkillTag"]=skilTag
 
         finally:
             return result

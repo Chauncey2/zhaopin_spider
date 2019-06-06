@@ -8,6 +8,7 @@ class QianchengSpider(scrapy.Spider):
     name = 'qiancheng_spider'
 
     baseUrl="https://search.51job.com/list/000000,000000,0000,00,9,99,{0},2,1.html"
+    offset=0
 
     def start_requests(self):
         with open('keywords.json', 'r') as f:
@@ -37,10 +38,16 @@ class QianchengSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.detail_parse)
 
         next_url=response.xpath("//li[@class='bk']/a[contains(text(),'下一页')]/@href").extract()[0]
+        self.offset+=1
         print("next_url",next_url)
-        if next_url is not None:
-            yield scrapy.Request(url=next_url, callback=self.parse)
+        if self.offset != 20:
+            if next_url is not None:
+                yield scrapy.Request(url=next_url, callback=self.parse)
+            elif detail_url_list is not None:
+                init_url = response.meta['start_url']
+                yield scrapy.Request(url=init_url, callback=self.detail_parse)
         elif detail_url_list is not None:
+            self.offset=0
             init_url = response.meta['start_url']
             yield scrapy.Request(url=init_url, callback=self.detail_parse)
 

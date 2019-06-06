@@ -14,7 +14,8 @@ MONGODB_PORT=27017
 MONGODB_DBNAME='JobInfo'
 #存放数据的表名称
 # MONGODB_DOCNAME='zhilian'
-MONGODB_DOCNAME='test'
+# MONGODB_DOCNAME='test'
+MONGODB_DOCNAME='crawler'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36'

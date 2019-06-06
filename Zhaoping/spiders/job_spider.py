@@ -33,15 +33,15 @@ class ZhaopinSpider(scrapy.Spider):
         if len(data_list)==0:  return
         for data in data_list:
             item=ZhaopingItem()
-            item['jobType']=data['jobType']['display']      #职位所属种类
-            item['jobName']=data['jobName']                 #职位名称
-            item['eduLevel']=data['eduLevel']['name']       #学历要求
-            item['companyName']=data['company']['name']     #公司名称
-            item['salary']=data['salary']                   #薪资
-            item['city']=data['city']['display']            #工作城市
-            item['workingExp']=data['workingExp']['name']   #工作经验
-            item['extractSkillTag']=data['extractSkillTag'] # 职位技能关键字
-            item['releaseTime']=data['createDate']          # 职位发布时间
+            item['jobType']=data['jobType']['items'][0]["name"]         #职位所属种类
+            item['jobName']=data['jobName']                             #职位名称
+            item['eduLevel']=data['eduLevel']['name']                   #学历要求
+            item['companyName']=data['company']['name']                 #公司名称
+            item['salary']=data['salary']                               #薪资
+            item['city']=data['city']['display']                        #工作城市
+            item['workingExp']=data['workingExp']['name']               #工作经验
+            item['extractSkillTag']=data['positionLabel']                # 职位技能关键字
+            item['releaseTime']=data['updateDate']                      # 职位发布时间
             yield item
         init_url=response.meta['start_url']
         self.offset += 90
